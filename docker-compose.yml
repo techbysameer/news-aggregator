@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: news_aggregator_app
+    image: news_aggregator_app
+    ports:
+      - "8000:9000"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    container_name: news_aggregator_db
+    restart: always
+    environment:
+      POSTGRES_DB: news_aggregator
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
